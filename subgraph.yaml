@@ -1,0 +1,33 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Legit
+    network: arbitrum-goerli
+    source:
+      address: "0x7e03C6fd9B4bE817dbE13d5c2C316eB1E3b65fC1"
+      abi: Legit
+      startBlock: 19673646
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - AddCompany
+        - CreateRequest
+        - OwnershipTransferred
+        - ValidateRequest
+      abis:
+        - name: Legit
+          file: ./abis/Legit.json
+      eventHandlers:
+        - event: AddCompany(string,address,uint8)
+          handler: handleAddCompany
+        - event: CreateRequest(uint64,bool,string,address,(uint8,string),bool)
+          handler: handleCreateRequest
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: ValidateRequest(uint64,address,string,(uint8,string))
+          handler: handleValidateRequest
+      file: ./src/legit.ts
